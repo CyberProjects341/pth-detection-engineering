@@ -1,0 +1,9 @@
+test_name: Negative Standard Kerberos Logon
+log_source: windows-security
+event:
+  EventID: 4624
+  LogonType: 2
+  AuthenticationPackageName: 'Negotiate'
+  TargetUserName: 'JohnDoe'
+  IpAddress: '127.0.0.1'
+expected_result: false
