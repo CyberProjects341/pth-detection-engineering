@@ -1,0 +1,28 @@
+title: Pass-the-Hash Activity via NTLM Logon and LSASS Access
+id: 8a4b2c1d-9e3f-4a1b-8c2d-112233445566
+status: experimental
+description: Detects potential Pass-the-Hash (PtH) lateral movement characterized by Security Event 4624 (Logon Type 3) with NTLM authentication coupled with Sysmon Event ID 10 (Process Access) targeting lsass.exe.
+references:
+  - https://attack.mitre.org/techniques/T1550/002/
+author: Karthik Shankar Prasad
+date: 2026/11/16
+tags:
+  - attack.defense_evasion
+  - attack.lateral_movement
+  - attack.t1550.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection_logon:
+    EventID: 4624
+    LogonType: 3
+    AuthenticationPackageName: 'NTLM'
+  selection_lsass:
+    EventID: 10
+    TargetImage|endswith: '\lsass.exe'
+    GrantedAccess: '0x1010'
+  condition: selection_logon or selection_lsass
+falsepositives:
+  - Legitimate network applications using NTLM authentication over SMB/RPC.
+level: high

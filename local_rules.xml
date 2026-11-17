@@ -1,0 +1,21 @@
+<group name="windows,credential_access,lateral_movement,">
+  <rule id="100501" level="12">
+    <if_sid>60106</if_sid>
+    <field name="win.eventdata.logonType">^3$</field>
+    <field name="win.eventdata.authenticationPackageName">^NTLM$</field>
+    <description>Potential Pass-the-Hash Attack Detected: Network Logon (Type 3) via NTLM.</description>
+    <mitre>
+      <id>T1550.002</id>
+    </mitre>
+  </rule>
+
+  <rule id="100502" level="14">
+    <if_sid>61603</if_sid>
+    <field name="win.eventdata.targetImage">.*\\lsass\.exe$</field>
+    <description>Critical LSASS Process Access Detected - Potential Credential Dumping / PtH Activity.</description>
+    <mitre>
+      <id>T1003.001</id>
+      <id>T1550.002</id>
+    </mitre>
+  </rule>
+</group>
